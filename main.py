@@ -2,6 +2,8 @@ import ulogging as logging
 import picoweb
 from wifi import Wifi
 import settings
+import upip
+import os
 
 # set up wifi class
 wifi = Wifi()
@@ -20,7 +22,8 @@ app = picoweb.WebApp(__name__)
 @app.route("/")
 def index(req, resp):
     yield from picoweb.start_response(resp)
-    yield from resp.awrite("Hello world from picoweb running on the ESP32")
+    # yield from resp.awrite("Hello world from picoweb running on the ESP32")
+    yield from app.render_template(resp, "welcome.html", (req,))
 
 
 app.run(debug=True, host="192.168.178.28")
