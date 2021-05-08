@@ -48,6 +48,23 @@ class Wifi:
         print("Failed to connect to wifi %s" % self.wifi_ssid)
         return station_interface.status()
 
+    @staticmethod
+    def scan_wifi():
+        """Scan the network for available wifis
+
+        :return: a list of tuples (ssid, bssid, channel, RSSI, authmode, hidden)
+        """
+        station_interface = network.WLAN(network.STA_IF)
+
+        if station_interface.isconnected():
+            print("Already connected")
+            return station_interface.status()
+
+        station_interface.active(True)
+        networks = station_interface.scan()
+        station_interface.active(False)
+        return networks
+
     def open_access_point(self, access_point_name, access_point_password):
         """Open an access point
 
