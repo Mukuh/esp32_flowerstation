@@ -28,7 +28,7 @@ class Wifi:
         station_interface = network.WLAN(network.STA_IF)
 
         if station_interface.isconnected():
-            print("Already connected")
+            print("* [INFO] WIFI Already connected")
             return station_interface.status()
 
         station_interface.active(True)
@@ -40,12 +40,12 @@ class Wifi:
 
             for _ in range(15):
                 if station_interface.isconnected():
-                    print("Connection successful")
-                    print(station_interface.ifconfig())
+                    print("* [INFO] WIFI Connection successful")
+                    print("* [INFO] WIFI IP: %s" % station_interface.ifconfig()[0])
                     return station_interface.status()
                 time.sleep_ms(200)
 
-        print("Failed to connect to wifi %s" % self.wifi_ssid)
+        print("* [ERROR] Failed to connect to wifi %s" % self.wifi_ssid)
         return station_interface.status()
 
     @staticmethod
@@ -55,10 +55,6 @@ class Wifi:
         :return: a list of tuples (ssid, bssid, channel, RSSI, authmode, hidden)
         """
         station_interface = network.WLAN(network.STA_IF)
-
-        if station_interface.isconnected():
-            print("Already connected")
-            return station_interface.status()
 
         station_interface.active(True)
         networks = station_interface.scan()
@@ -83,7 +79,7 @@ class Wifi:
         while ap_interface.active() is False:
             pass
 
-        print("Access-Point ready")
+        print("* [INFO] Access-Point ready")
         print(ap_interface.ifconfig())
 
         return ap_interface.status()
